@@ -13,28 +13,45 @@ get_header();
 
 <div class="wrapper" id="single-wrapper">
 
-  <div class="container" id="content" tabindex="-1">
+  <div class="containeri-fluid" id="content" tabindex="-1">
 
-    <div class="row">
+    <main class="site-main" id="main">
 
-      <main class="site-main" id="main">
+      <div class="row">
 
         <?php
         while ( have_posts() ) {
           the_post();
-          get_template_part( 'loop-templates/content', 'single' );
-          understrap_post_nav();
+        ?>
 
-          // If comments are open or we have at least one comment, load up the comment template.
-          if ( comments_open() || get_comments_number() ) {
-            comments_template();
-          }
+        <div class="col-md-8 bg-primary">
+          <div class="ms-5">
+            <?php $image = get_attached_media( 'image' ); ?>
+            <video
+              class="video-js"
+              controls preload="auto"
+              width="1280" height="720"
+              poster="<?php echo array_shift($image)->guid; ?>"
+              data-setup='{"fluid": true}'
+            >
+            <?php $video = get_attached_media( 'video/mp4' ); ?>
+            <source src="<?php echo array_shift($video)->guid; ?>" type="video/mp4">
+            </video>
+            <?php the_content(); ?>
+          </div>
+        </div>
+
+        <div class="col-md-4 bg-info">
+          <?php print_related_posts( get_the_ID() );?>
+        </div>
+
+        <?php
         }
         ?>
 
-      </main><!-- #main -->
+      </div><!-- .row -->
 
-    </div><!-- .row -->
+    </main><!-- #main -->
 
   </div><!-- #content -->
 
